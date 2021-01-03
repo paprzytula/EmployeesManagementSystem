@@ -1,0 +1,43 @@
+﻿@page "/employeelist"
+@inherits EmployeeListBase
+@attribute [Authorize]
+
+@if (Employees == null)
+{
+    <div class="spinner"></div>
+}
+else
+{
+<div class="card-deck">
+    <h1>Lista pracowników</h1>
+    <br />
+    <table class="table">
+        <thead>
+            <tr>
+                <th>First Name</th>
+                <th>Last Name</th>
+                <th>Email</th>
+                <th>Gender</th>
+                <th>Date Of Birth</th>
+                <th>Action</th>
+            </tr>
+        </thead>
+        @foreach (var employee in Employees)
+        {
+
+            <tbody>
+                <tr>
+                    <td>@employee.FirstName</td>
+                    <td>@employee.LastName</td>
+                    <td>@employee.Email</td>
+                    <td>@employee.Gender</td>
+                    <td>@employee.DateOfBirth.ToShortDateString()</td>
+
+                    <td><a href="@($"/employeedetails/{employee.Id}")" class="btn btn-primary m-1">Display</a></td>
+                    <td><a href="@($"/editemployee/{employee.Id}")" class="btn btn-primary m-1">Edit</a></td>
+                </tr>
+            </tbody>
+    }
+        </table>
+    </div>
+}
