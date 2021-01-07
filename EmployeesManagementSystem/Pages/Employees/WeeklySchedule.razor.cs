@@ -20,7 +20,7 @@ namespace EmployeesManagementSystem.Pages.Employees
         protected List<Employee> Employees = new List<Employee>();
 
         protected List<ScheduleDetail> Schedule = new List<ScheduleDetail>();
-
+        protected bool ShowAlert { get; set; } = false;
         protected List<DateTime?> Dates = new List<DateTime?>();
         protected override void OnInitialized()
         {
@@ -34,7 +34,7 @@ namespace EmployeesManagementSystem.Pages.Employees
             if (currentDayNumber == 0)
                 currentDayNumber = 7;
 
-            var firstWeekDay = DateTime.Now.AddDays(-currentDayNumber);
+            var firstWeekDay = DateTime.Now.AddDays(-currentDayNumber + 1);
 
             foreach (var item in Employees)
             {
@@ -60,7 +60,41 @@ namespace EmployeesManagementSystem.Pages.Employees
                 Schedule.Add(scheduleDetail);
             }
         }
+
+        protected void SaveSchedule()
+        {
+            foreach (var item in Schedule)
+            {
+                foreach (var day in item.Days)
+                {
+                    // Get the day from the database 
+                    if (day.IsExist)
+                    {
+                        var existingDay = Db.Schedules.SingleOrDefault(d => d.Date == day.Date.Date && d.EmployeeId == item.Employee.Id);
+                        existingDay.IsAttended = day.IsAttended;
+                    }
+                    else
+                    {
+                        if (day.IsAttended)
+                        {
+                            Db.Schedules.Add(new Models.Schedule
+                            {
+                                IsAttended = true,
+                                EmployeeId = item.Employee.Id,
+                                Date = day.Date.Date,
+                            });
+                        }
+                    }
+
+                }
+            }
+            Db.SaveChanges();
+            ShowAlert = true; 
+
+        }
     }
+
+
 
     public class ScheduleDetail
     {

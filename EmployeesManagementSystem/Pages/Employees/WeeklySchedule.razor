@@ -10,7 +10,7 @@
             <td>Employee Name</td>
            @foreach (var item in Dates)
            {
-               <td>@item.Value.DayOfWeek.ToString() (@item.Value.Date)</td>
+               <td>@item.Value.DayOfWeek.ToString() (@item.Value.Date.ToShortDateString())</td>
            }
         </tr>
     </thead>
@@ -22,10 +22,17 @@
                 @foreach (var day in item.Days)
                 {
                     <td>
-                        <input type="checkbox" @bind-value="day.IsAttended" class="custom-checkbox" />
+                        <input type="checkbox" @bind-value="day.IsAttended" checked="@day.IsAttended" class="custom-checkbox" />
                     </td>
                 }
             </tr>
         }
     </tbody>
 </table>
+<button class="btn btn-success" @onclick="SaveSchedule">Save</button>
+@if(ShowAlert)
+{
+    <div class="alert alert-success">
+        Schedule Saved Successfully!
+    </div>
+}
