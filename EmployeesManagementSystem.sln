@@ -9,7 +9,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "External.Components", "Exte
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "References", "References", "{C86F6F7F-FC91-47DC-A9F9-CDB2EC4C6971}"
 	ProjectSection(SolutionItems) = preProject
-		..\..\..\..\..\..\..\VisualParadigm\SkillPoints.vpp = ..\..\..\..\..\..\..\VisualParadigm\SkillPoints.vpp
+		..\..\..\..\VisualParadigm\SkillPoints.vpp = ..\..\..\..\VisualParadigm\SkillPoints.vpp
 	EndProjectSection
 EndProject
 Global

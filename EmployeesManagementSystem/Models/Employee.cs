@@ -21,6 +21,7 @@ namespace EmployeesManagementSystem.Models
         public string PhotoPath { get; set; }
         public virtual Department Department { get; set; }
         public int DepartmentId { get; set; }
+        public virtual List<Schedule> Schedules { get; set; }
 
     }
 }

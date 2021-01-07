@@ -1,0 +1,31 @@
+﻿@page "/weekly-schedule"
+
+@inherits WeeklyScheduleBase
+
+<h2>Weekly Schedule</h2>
+
+<table class="table table-hover">
+    <thead>
+        <tr>
+            <td>Employee Name</td>
+           @foreach (var item in Dates)
+           {
+               <td>@item.Value.DayOfWeek.ToString() (@item.Value.Date)</td>
+           }
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Schedule)
+        {
+            <tr>
+                <td>@item.Employee.FirstName @item.Employee.LastName</td>
+                @foreach (var day in item.Days)
+                {
+                    <td>
+                        <input type="checkbox" @bind-value="day.IsAttended" class="custom-checkbox" />
+                    </td>
+                }
+            </tr>
+        }
+    </tbody>
+</table>
