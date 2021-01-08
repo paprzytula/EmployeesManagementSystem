@@ -2,7 +2,46 @@
 
 @if (displayModal)
 {
+ <div id="divModal">
+     <div class="container">
+         <div class="panel panel-default">
+             <div class="panel-heading modalHeading">Set Note</div>
+             <div class="panel-body">
+                 <div class="row">
+                     <div class="col-md-4">
+                         <label>From Date: </label>
+                     </div>
+                     <div class="col-md-8">
+                         <input type ="date" style="width:100%;"/>
+                     </div>
+                 </div>
+             </div>
+             <div class="row">
+                 <div class="col-md-4">
+                     <label>To Date: </label>
+                 </div>
+                 <div class="col-md-8">
+                     <input type="date" style="width:100%" />
+                 </div>
+             </div>
+             <div class="col-md-4">
+                 <label>Note: </label>
+             </div>
+             <div class="col-md-8">
+                 <input type="text" placeholder="Type here..."/>
+             </div>
+         </div>
+         <div class="row"style="margin-bottom:10px;">
+             <div class="col-md-6">
+             </div>
+             <div class="col-md-6" style="text-align:right;">
+                 <button class="btn btn-success" style="float:left;margin-right:5px;">Save</button>
+                 <button class="btn btn-danger" @onclick="CloseModal" style="float:left;">Close</button>
+             </div>
+         </div>
+     </div>
 
+ </div>
 }
 
 <select @onchange="LoadCalendar">
@@ -32,7 +71,7 @@
                     var wIndex = weekIndex;
                     var dIndex = dayIndex;
 
-                <td>
+                <td @ondblclick="@(()=>OpenModal(wIndex, dIndex))">
                     @weeks[weekIndex].Dates[dayIndex].DateValue
                     <br /><br />
                     <label style="color:#c00;font-weight:bold">@weeks[weekIndex].Dates[dayIndex].Note</label>
@@ -118,5 +157,13 @@
             countdays++;
         }
 
+    }
+    private void CloseModal()
+    {
+        displayModal = false;
+    }
+    private void OpenModal(int wIndex, int dIndex)
+    {
+        displayModal = true;
     }
 }
