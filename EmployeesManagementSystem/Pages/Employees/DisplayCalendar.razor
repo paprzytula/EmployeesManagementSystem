@@ -1,0 +1,57 @@
+﻿@page "/calendar"
+
+<select @onchange="LoadCalendar">
+    @foreach (string monthName in monthNames)
+    {
+        <option>@monthName</option>
+    }
+</select>
+ https://www.youtube.com/watch?v=GeR3wgbJAl4&t=53s
+<table class="table table-bordered table-striped">
+    <thead>
+        <tr>
+            @for (var dayIndex = 0; dayIndex < days.Count(); dayIndex++)
+            {
+                <th>
+                    @days[dayIndex]
+                </th>
+            }
+        </tr>
+    </thead>
+</table>
+
+
+@code {
+    List<string> monthNames = new List<string>();
+    List<string> days = new List<string>();
+    List<WeekClass> weeks = new List<WeekClass>();
+    DateTime startDate = new DateTime(DateTime.Now.Year, DateTime.Now.Month, 1);
+    DateTime endDate = (new DateTime(DateTime.Now.Year, DateTime.Now.Month, 1)).AddMonths(1).AddDays(-1);
+
+    protected override void OnInitialized()
+    {
+        base.OnInitialized();
+
+
+        monthNames = System.Globalization.CultureInfo.CurrentCulture.DateTimeFormat.MonthNames.ToList();
+        GenerateCalendarHead();
+
+    }
+    private void LoadCalendar(ChangeEventArgs e)
+    {
+        var month = e.Value.ToString();
+        int monthIndex = DateTime.ParseExact(month, "MMMM", System.Globalization.CultureInfo.CurrentCulture).Month;
+        startDate = new DateTime(DateTime.Now.Year, monthIndex, 1);
+        endDate = (new DateTime(DateTime.Now.Year, monthIndex, 1)).AddMonths(1).AddDays(1);
+    }
+    private void GenerateCalendarHead()
+    {
+        var day1 = new List<string>();
+        for (var dt = startDate; dt <= endDate; dt = dt.AddDays(1))
+        {
+            day1.Add(dt.ToString("dddd"));
+        }
+        days = day1.Distinct().ToList();
+
+    }
+}

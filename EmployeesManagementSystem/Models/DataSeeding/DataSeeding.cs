@@ -44,7 +44,7 @@ namespace EmployeesManagementSystem.Models.DataSeeding
                 UserName = "admin@dotnetlabs.com",
                 FirstName = "Admin",
                 LastName = "Admin",
-                Gender = Gender.Mężczyzna,
+                Gender = Gender.Male,
                 DateOfBirth = new DateTime(1990, 01, 01), 
                 DepartmentId = 4,
             };
@@ -58,7 +58,7 @@ namespace EmployeesManagementSystem.Models.DataSeeding
                 UserName = "hr@dotnetlabs.com",
                 FirstName = "HR",
                 LastName = "HR",
-                Gender = Gender.Kobieta,
+                Gender = Gender.Female,
                 DateOfBirth = new DateTime(1996, 01, 01),
                 DepartmentId = 2,
             };
@@ -72,7 +72,7 @@ namespace EmployeesManagementSystem.Models.DataSeeding
                 UserName = "teamleader@dotnetlabs.com",
                 FirstName = "Team",
                 LastName = "Leader",
-                Gender = Gender.Kobieta,
+                Gender = Gender.Female,
                 DateOfBirth = new DateTime(1992, 01, 01),
                 DepartmentId = 2,
             };
@@ -86,7 +86,7 @@ namespace EmployeesManagementSystem.Models.DataSeeding
                 UserName = "it@dotnetlabs.com",
                 FirstName = "IT",
                 LastName = "Leader",
-                Gender = Gender.Mężczyzna,
+                Gender = Gender.Male,
                 DateOfBirth = new DateTime(1991, 01, 01),
                 DepartmentId = 1,
             };

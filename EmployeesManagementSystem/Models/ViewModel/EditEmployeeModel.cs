@@ -11,13 +11,13 @@ namespace EmployeesManagementSystem.Models
     {
 
         public int EmployeeId { get; set; }
-        [Required(ErrorMessage = "Proszę podać pierwsze imię")]
+        [Required(ErrorMessage = "Please provide First Name")]
         public string FirstName { get; set; }
-        [Required(ErrorMessage = "Proszę podać nazwisko")]
+        [Required(ErrorMessage = "Please provide Last Name")]
         [MinLength(2)]
         public string LastName { get; set; }
         [EmailAddress]
-        [EmailDomainValidator(AllowedDomain = "gmail.com", ErrorMessage = "Domena musi być gmail.com")]
+        [EmailDomainValidator(AllowedDomain = "gmail.com", ErrorMessage = "The domain must be: gmail.com")]
 
         public string Email { get; set; }
     
