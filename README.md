@@ -1,4 +1,4 @@
-# EmployeesManagementSystem
+# Employees Management System
 
 ## Available functionalities
 1) CRUD Employee
