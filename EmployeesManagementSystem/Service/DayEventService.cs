@@ -32,14 +32,12 @@ namespace EmployeesManagementSystem.Service
                 {
                     DayEventId = id
                 };
-                using (IDbConnection con = new SqlConnection(Configuration.GetConnectionString("DefaultConnection")))
-                {
-                    if (con.State == ConnectionState.Closed) con.Open();
-                    var dayEvents = con.Query<DayEvent>("SP_DayEvent",
-                       this.SetParameters(dayEvent, (int)OperationType.Delete),
-                       commandType: CommandType.StoredProcedure);
-                    message = "Deleted";
-                }
+                using IDbConnection con = new SqlConnection(Configuration.GetConnectionString("DefaultConnection"));
+                if (con.State == ConnectionState.Closed) con.Open();
+                var dayEvents = con.Query<DayEvent>("SP_DayEvent",
+                   SetParameters(dayEvent, (int)OperationType.Delete),
+                   commandType: CommandType.StoredProcedure);
+                message = "Deleted";
             }
             catch (Exception ex)
             {
@@ -58,7 +56,7 @@ namespace EmployeesManagementSystem.Service
                 string sql = string.Format(@"SELECT * FROM DayEvent WHERE EventDate = '{0}'",eventDate.ToString("dd-MMM-yyyy", CultureInfo.InvariantCulture));
                 var dayEvents = con.Query<DayEvent>(sql).ToList();
 
-                if (dayEvents != null && dayEvents.Count() > 0)
+                if (dayEvents != null && dayEvents.Count > 0)
                 {
                     dayEvent = dayEvents.SingleOrDefault();
                 }
@@ -81,7 +79,7 @@ namespace EmployeesManagementSystem.Service
                 string sql = string.Format(@"SELECT * FROM DayEvent WHERE EventDate BETWEEN '{0}' AND '{1}'", fromDate.ToString("dd-MMM-yyyy", CultureInfo.InvariantCulture), toDate.ToString("dd-MMM-yyyy", CultureInfo.InvariantCulture));
                 var dayEvents = con.Query<DayEvent>(sql).ToList();
 
-                if (dayEvents != null && dayEvents.Count() > 0)
+                if (dayEvents != null && dayEvents.Count > 0)
                 {
                     dayEvent = dayEvents.FirstOrDefault();
                 }
@@ -94,17 +92,14 @@ namespace EmployeesManagementSystem.Service
             try
             {
                 int operationType = Convert.ToInt32(dayEvent.DayEventId == 0 ? OperationType.Insert : OperationType.Update);
-                using (IDbConnection con = new SqlConnection(Configuration.GetConnectionString("DefaultConnection")))
+                using IDbConnection con = new SqlConnection(Configuration.GetConnectionString("DefaultConnection"));
+                if (con.State == ConnectionState.Closed) con.Open();
+                var dayEvents = con.Query<DayEvent>("SP_DayEvent",
+                    SetParameters(dayEvent, operationType),
+                    commandType: CommandType.StoredProcedure);
+                if (dayEvents != null && dayEvents.Any())
                 {
-                    if (con.State == ConnectionState.Closed) con.Open();
-                    var dayEvents = con.Query<DayEvent>("SP_DayEvent",
-                        this.SetParameters(dayEvent, operationType),
-                        commandType: CommandType.StoredProcedure);
-                    if (dayEvents != null && dayEvents.Count()>0)
-                    {
-                        dayEvent = dayEvents.FirstOrDefault();
-                    }
-
+                    dayEvent = dayEvents.FirstOrDefault();
                 }
             }
             catch (Exception e)
@@ -114,7 +109,7 @@ namespace EmployeesManagementSystem.Service
             }
             return dayEvent;
         }
-        private DynamicParameters SetParameters(DayEvent dayEvent, int operationType)
+        private static DynamicParameters SetParameters(DayEvent dayEvent, int operationType)
         {
             DynamicParameters parameters = new DynamicParameters();
             parameters.Add("@DayEventId", dayEvent.DayEventId);

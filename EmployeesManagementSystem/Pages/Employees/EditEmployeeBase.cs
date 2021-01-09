@@ -86,7 +86,7 @@ namespace EmployeesManagementSystem.Pages
                 //Employee.Id = null;
                 Employee.PasswordHash = null;
                 Employee.UserName = Employee.Email;
-                var result = await UserManager.CreateAsync(Employee, EditEmployeeModel.Password); 
+                 await UserManager.CreateAsync(Employee, EditEmployeeModel.Password); 
             }
 
             NavigationManager.NavigateTo("employeelist");
