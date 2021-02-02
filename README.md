@@ -10,16 +10,9 @@
 1. Clone or download
 2. Restore NuGet packages
 3. Open Package Manager Console and run update-database
-4. Install Sql Server Management Studio (SSMS)
-5. Open and copy script from References/StoredProcedure.sql
-6. Open existing Database (EmployeesMSDb)
-7. Create Stored Procedure in Programmability/StoredProcedures
-8. Paste SQL script
-9. Replace UPDATE with CREATE
-10. Execute script
-11. Run project
-12. Login with credentials Username: admin@dotnetlabs.com Password: Test.123 
-13 Have fun!
+4. Run project
+5. Login with credentials Username: admin@admin.com Password: Maslo123$
+6 Have fun!
 
 ## TODOs
 
