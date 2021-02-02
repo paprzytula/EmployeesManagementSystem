@@ -6,8 +6,8 @@ namespace EmployeesManagementSystem.Models
 {
     public enum Gender
     {
-        Male,
-        Female,
-        Other
+        Male=0,
+        Female=1,
+        Other=2
     }
 }

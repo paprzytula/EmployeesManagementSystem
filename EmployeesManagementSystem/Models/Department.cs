@@ -10,6 +10,6 @@ namespace EmployeesManagementSystem.Models
         [Required]
         public string DepartmentName { get; set; }
 
-        public virtual List<Employee> Employees { get; set; }
+        public virtual List<Employee> Employees { get; set; } = new List<Employee>();
     }
 }

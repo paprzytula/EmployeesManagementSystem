@@ -100,11 +100,15 @@ namespace EmployeesManagementSystem.Pages
 
         protected async Task ConfirmDelete_Click(bool deleteConfirmed)
         {
-            if (deleteConfirmed)
+            if (deleteConfirmed && Employee.Email != "admin@admin.com")
             {
                 Db.Users.Remove(Employee);
                 await Db.SaveChangesAsync();
                 NavigationManager.NavigateTo("employeelist", deleteConfirmed);
+            }
+            else
+            {
+                NavigationManager.NavigateTo("employeelist");
             }
         }
 

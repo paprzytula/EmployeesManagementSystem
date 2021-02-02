@@ -1,5 +1,4 @@
-﻿using EmployeesManagementSystem.Models.CustomValidators;
-using Microsoft.AspNetCore.Identity;
+﻿using Microsoft.AspNetCore.Identity;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
@@ -21,7 +20,7 @@ namespace EmployeesManagementSystem.Models
         public string PhotoPath { get; set; }
         public virtual Department Department { get; set; }
         public int DepartmentId { get; set; }
-        public virtual List<Schedule> Schedules { get; set; }
-
+        public virtual ICollection<EmployeeSkill> EmployeeSkills { get; set; } = new List<EmployeeSkill>();
+        public virtual ICollection<Skill> Skills { get; set; } = new List<Skill>();
     }
 }

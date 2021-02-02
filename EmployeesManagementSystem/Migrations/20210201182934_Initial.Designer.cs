@@ -10,8 +10,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace EmployeesManagementSystem.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20210107164822_FixSchedule")]
-    partial class FixSchedule
+    [Migration("20210201182934_Initial")]
+    partial class Initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -19,7 +19,7 @@ namespace EmployeesManagementSystem.Migrations
             modelBuilder
                 .UseIdentityColumns()
                 .HasAnnotation("Relational:MaxIdentifierLength", 128)
-                .HasAnnotation("ProductVersion", "5.0.1");
+                .HasAnnotation("ProductVersion", "5.0.2");
 
             modelBuilder.Entity("EmployeesManagementSystem.Models.Department", b =>
                 {
@@ -144,29 +144,6 @@ namespace EmployeesManagementSystem.Migrations
                         .HasFilter("[NormalizedUserName] IS NOT NULL");
 
                     b.ToTable("AspNetUsers");
-                });
-
-            modelBuilder.Entity("EmployeesManagementSystem.Models.Schedule", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .UseIdentityColumn();
-
-                    b.Property<DateTime>("Date")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("EmployeeId")
-                        .HasColumnType("nvarchar(450)");
-
-                    b.Property<bool>("IsAttended")
-                        .HasColumnType("bit");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("EmployeeId");
-
-                    b.ToTable("Schedules");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>
@@ -315,15 +292,6 @@ namespace EmployeesManagementSystem.Migrations
                     b.Navigation("Department");
                 });
 
-            modelBuilder.Entity("EmployeesManagementSystem.Models.Schedule", b =>
-                {
-                    b.HasOne("EmployeesManagementSystem.Models.Employee", "Employee")
-                        .WithMany("Schedules")
-                        .HasForeignKey("EmployeeId");
-
-                    b.Navigation("Employee");
-                });
-
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
                 {
                     b.HasOne("Microsoft.AspNetCore.Identity.IdentityRole", null)
@@ -378,11 +346,6 @@ namespace EmployeesManagementSystem.Migrations
             modelBuilder.Entity("EmployeesManagementSystem.Models.Department", b =>
                 {
                     b.Navigation("Employees");
-                });
-
-            modelBuilder.Entity("EmployeesManagementSystem.Models.Employee", b =>
-                {
-                    b.Navigation("Schedules");
                 });
 #pragma warning restore 612, 618
         }

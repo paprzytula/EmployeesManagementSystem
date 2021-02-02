@@ -1,7 +1,7 @@
 ﻿@page "/employeelist"
-@inherits EmployeeListBase
 @attribute [Authorize]
 
+@inherits ListEmployeeBase
 @if (Employees == null)
 {
     <div class="spinner"></div>

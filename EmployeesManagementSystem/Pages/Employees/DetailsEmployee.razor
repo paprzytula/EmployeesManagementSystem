@@ -1,6 +1,6 @@
 ﻿@page "/employeedetails/{id}"
 @page "/employeedetails/"
-@inherits EmployeeDetailsBase
+@inherits DetailsEmployeeBase
 
 @if (Employee == null)
 {
@@ -23,7 +23,7 @@ else
                 <h4>Dział : @(Employee.Department == null ? "N/A" : Employee.Department.DepartmentName)</h4>
             </div>
             <div class="card-footer text-center">
-                <a href="/" class="btn btn-primary m-1">Back</a>
+                <a href="/employeelist" class="btn btn-primary m-1">Back</a>
                 <a href="@($"/editemployee/{Employee.Id}")" class="btn btn-primary m-1">Edit</a>
                 <button class="btn btn-danger" type="button" @onclick="Delete_Click">Delete</button>
             </div>

@@ -32,13 +32,18 @@ namespace EmployeesManagementSystem.Pages
             DeleteConfirmation.Show();
         }
 
+        
         protected async Task ConfirmDelete_Click(bool deleteConfirmed)
         {
-            if (deleteConfirmed)
+            if (deleteConfirmed && Employee.Email != "admin@admin.com")
             {
                 Db.Users.Remove(Employee);
                 await Db.SaveChangesAsync();
-                NavigationManager.NavigateTo("employeelist");
+                await OnEmployeeDeleted.InvokeAsync(Employee.Id);
+            }
+            else
+            {
+                NavigationManager.NavigateTo("/");
             }
         }
 

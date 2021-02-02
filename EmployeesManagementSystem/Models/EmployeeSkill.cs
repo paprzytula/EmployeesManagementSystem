@@ -5,14 +5,11 @@ using System.Threading.Tasks;
 
 namespace EmployeesManagementSystem.Models
 {
-    public class Schedule
+    public class EmployeeSkill
     {
-
-        public int Id { get; set; }
-        public bool IsAttended { get; set; }
-        public DateTime Date { get; set; }
         public string EmployeeId { get; set; }
         public virtual Employee Employee { get; set; }
-        
+        public int SkillId { get; set; }
+        public virtual Skill Skill { get; set; }
     }
 }

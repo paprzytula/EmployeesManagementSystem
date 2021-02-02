@@ -58,7 +58,7 @@
             <CustomInputSelect @bind-Value="@EditEmployeeModel.DepartmentId" class="form-control">
                 @foreach (var dept in Departments)
                 {
-<option value="@dept.DepartmentId">@dept.DepartmentName</option>}
+                    <option value="@dept.DepartmentId">@dept.DepartmentName</option>}
             </CustomInputSelect>
         </div>
     </div>
@@ -70,7 +70,7 @@
             <InputSelect @bind-Value="EditEmployeeModel.Gender" class="form-control">
                 @foreach (var gender in Enum.GetValues(typeof(Gender)))
                 {
-<option value="@gender">@gender</option>}
+                    <option value="@gender">@gender</option>}
             </InputSelect>
         </div>
     </div>
@@ -87,7 +87,7 @@
             Password
         </label>
         <div class="col-sm-10">
-            <InputText @bind-Value="EditEmployeeModel.Password" class="form-control" />
+            <InputText type="password" @bind-Value="EditEmployeeModel.Password" class="form-control" />
         </div>
     </div>
     <div class="form-group row">
@@ -95,14 +95,21 @@
             Confirm Password
         </label>
         <div class="col-sm-10">
-            <InputText @bind-Value="EditEmployeeModel.ConfirmPassword" class="form-control" />
+            <InputText type="password" @bind-Value="EditEmployeeModel.ConfirmPassword" class="form-control" />
         </div>
     </div>
     <button class="btn btn-primary" type="submit">Save</button>
-
-    @if (EditEmployeeModel.EmployeeId > 0)
+    <div class="form-group row">
+        <label for="fileinput" class="col-sm-2 col-form-label">
+            Upload Image
+        </label>
+        <div class="col-sm-10">
+            <InputFile @bind-Value="EditEmployeeModel.PhotoPath" class="form-control" />
+        </div>
+    </div>
+    @if (EditEmployeeModel.EmployeeId > 0&&EditEmployeeModel.Email!="admin@admin.com")
     {
-<button class="btn btn-danger" type="button" @onclick="Delete_Click">Usuń</button>}
+        <button class="btn btn-danger" type="button" @onclick="Delete_Click">Usuń</button>}
 </EditForm>
 <Confirm @ref="DeleteConfirmation" ConfirmationChanged="ConfirmDelete_Click"
          ConfirmationMessage=@($"Czy na pewno chcesz usunąć pracownika \"{EditEmployeeModel.LastName}, {EditEmployeeModel.FirstName}\"?")></Confirm>

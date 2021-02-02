@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace EmployeesManagementSystem.Pages
 {
-    public class EmployeeDetailsBase : ComponentBase
+    public class DetailsEmployeeBase : ComponentBase
     {
         public Employee Employee { get; set; } = new Employee();
         [Parameter]
@@ -29,11 +29,15 @@ namespace EmployeesManagementSystem.Pages
 
         protected async Task ConfirmDelete_Click(bool deleteConfirmed)
         {
-            if (deleteConfirmed)
+            if (deleteConfirmed&&Employee.Email!="admin@admin.com")
             {
                 Db.Users.Remove(Employee);
                 await Db.SaveChangesAsync();
                 await OnEmployeeDeleted.InvokeAsync(Employee.Id);
+            }
+            else
+            {
+                NavigationManager.NavigateTo("/employeelist");
             }
         }
 

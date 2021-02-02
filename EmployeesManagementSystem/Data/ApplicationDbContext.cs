@@ -15,7 +15,9 @@ namespace EmployeesManagementSystem.Data
         }
 
         public DbSet<Department> Departments { get; set; }
-        public DbSet<Schedule> Schedules { get; set; }
+        public DbSet<Employee> Employees { get; set; }
+        public DbSet<Category> Categories { get; set; }
+        public DbSet<Skill> Skills { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -34,6 +36,10 @@ namespace EmployeesManagementSystem.Data
             modelBuilder.Entity<Department>().HasData(
     new Department { DepartmentId = 4, DepartmentName = "Admin" });
 
+            modelBuilder.Entity<Employee>()
+                .HasOne(d => d.Department)
+                .WithMany(e => e.Employees)
+                .HasForeignKey(d => d.DepartmentId);
            
         }
     }

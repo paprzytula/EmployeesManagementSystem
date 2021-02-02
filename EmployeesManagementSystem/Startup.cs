@@ -1,10 +1,8 @@
 using AutoMapper;
 using EmployeesManagementSystem.Areas.Identity;
 using EmployeesManagementSystem.Data;
-using EmployeesManagementSystem.IService;
 using EmployeesManagementSystem.Models;
 using EmployeesManagementSystem.Models.DataSeeding;
-using EmployeesManagementSystem.Service;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Authorization;
@@ -43,7 +41,6 @@ namespace EmployeesManagementSystem
             services.AddDefaultIdentity<Employee>()
                 .AddRoles<IdentityRole>()
                 .AddEntityFrameworkStores<ApplicationDbContext>();
-            services.AddScoped<IDayEventService, DayEventService>();
             services.AddRazorPages();
             services.AddAutoMapper(typeof(EmployeeProfile));
             services.AddServerSideBlazor();
@@ -68,7 +65,8 @@ namespace EmployeesManagementSystem
             }
 
             var dataSeeding = new UsersSeeding(userManager, roleManager);
-            dataSeeding.SeedData().Wait();
+            dataSeeding.SeedRole().Wait();
+            dataSeeding.SeedUsers().Wait();
 
             app.UseHttpsRedirection();
             app.UseStaticFiles();

@@ -19,7 +19,7 @@ namespace EmployeesManagementSystem.Models.DataSeeding
             _roleManager = roleManager;
         }
 
-        public async Task SeedData()
+        public async Task SeedRole()
         {
             if (await _roleManager.FindByNameAsync("Admin") != null)
                 return;
@@ -36,28 +36,31 @@ namespace EmployeesManagementSystem.Models.DataSeeding
 
             var teamLeaderRole = new IdentityRole { Name = "Team Leader" };
             await _roleManager.CreateAsync(teamLeaderRole);
-
+        }
+        public async Task SeedUsers() {
+            if (await _userManager.FindByEmailAsync("admin@admin.com")!=null)
+                return;
             // Create admin 
             var admin = new Employee
             {
-                Email = "admin@test.com",
-                UserName = "admin@dotnetlabs.com",
+                Email = "admin@admin.com",
+                UserName = "admin@admin.com",
                 FirstName = "Admin",
                 LastName = "Admin",
                 Gender = Gender.Male,
                 DateOfBirth = new DateTime(1990, 01, 01), 
                 DepartmentId = 4,
             };
-            await _userManager.CreateAsync(admin, "Test.123");
+            await _userManager.CreateAsync(admin, "Maslo123$");
             await _userManager.AddToRoleAsync(admin, "Admin");
 
             // Create user 
             var hrUser = new Employee
             {
                 Email = "hr@test.com",
-                UserName = "hr@dotnetlabs.com",
-                FirstName = "HR",
-                LastName = "HR",
+                UserName = "hr@test.com",
+                FirstName = "HRfirstame",
+                LastName = "HRsurname",
                 Gender = Gender.Female,
                 DateOfBirth = new DateTime(1996, 01, 01),
                 DepartmentId = 2,
@@ -69,7 +72,7 @@ namespace EmployeesManagementSystem.Models.DataSeeding
             var teamLeaderUser = new Employee
             {
                 Email = "teamleader@test.com",
-                UserName = "teamleader@dotnetlabs.com",
+                UserName = "teamleader@test.com",
                 FirstName = "Team",
                 LastName = "Leader",
                 Gender = Gender.Female,
@@ -83,9 +86,9 @@ namespace EmployeesManagementSystem.Models.DataSeeding
             var itUser = new Employee
             {
                 Email = "it@test.com",
-                UserName = "it@dotnetlabs.com",
+                UserName = "it@test.com",
                 FirstName = "IT",
-                LastName = "Leader",
+                LastName = "Proffessionnal",
                 Gender = Gender.Male,
                 DateOfBirth = new DateTime(1991, 01, 01),
                 DepartmentId = 1,
