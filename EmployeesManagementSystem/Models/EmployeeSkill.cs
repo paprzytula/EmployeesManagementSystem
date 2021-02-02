@@ -7,9 +7,10 @@ namespace EmployeesManagementSystem.Models
 {
     public class EmployeeSkill
     {
-        public string EmployeeId { get; set; }
+        public string EmployeesId { get; set; }
         public virtual Employee Employee { get; set; }
-        public int SkillId { get; set; }
+        public int SkillsId { get; set; }
         public virtual Skill Skill { get; set; }
+        public string Answer { get; set; }
     }
 }

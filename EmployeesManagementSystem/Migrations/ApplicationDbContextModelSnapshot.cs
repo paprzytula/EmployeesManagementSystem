@@ -19,6 +19,39 @@ namespace EmployeesManagementSystem.Migrations
                 .HasAnnotation("Relational:MaxIdentifierLength", 128)
                 .HasAnnotation("ProductVersion", "5.0.2");
 
+            modelBuilder.Entity("EmployeeSkill", b =>
+                {
+                    b.Property<string>("EmployeesId")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<int>("SkillsSkillId")
+                        .HasColumnType("int");
+
+                    b.HasKey("EmployeesId", "SkillsSkillId");
+
+                    b.HasIndex("SkillsSkillId");
+
+                    b.ToTable("EmployeeSkill");
+                });
+
+            modelBuilder.Entity("EmployeesManagementSystem.Models.Category", b =>
+                {
+                    b.Property<int>("CategoryId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .UseIdentityColumn();
+
+                    b.Property<string>("CategoryDescription")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("CategoryName")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("CategoryId");
+
+                    b.ToTable("Categories");
+                });
+
             modelBuilder.Entity("EmployeesManagementSystem.Models.Department", b =>
                 {
                     b.Property<int>("DepartmentId")
@@ -43,7 +76,7 @@ namespace EmployeesManagementSystem.Migrations
                         new
                         {
                             DepartmentId = 2,
-                            DepartmentName = "HR"
+                            DepartmentName = "Scada"
                         },
                         new
                         {
@@ -142,6 +175,47 @@ namespace EmployeesManagementSystem.Migrations
                         .HasFilter("[NormalizedUserName] IS NOT NULL");
 
                     b.ToTable("AspNetUsers");
+                });
+
+            modelBuilder.Entity("EmployeesManagementSystem.Models.EmployeeSkill", b =>
+                {
+                    b.Property<string>("EmployeesId")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<int>("SkillsId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Answer")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("EmployeesId", "SkillsId");
+
+                    b.HasIndex("SkillsId");
+
+                    b.ToTable("EmployeeSkills");
+                });
+
+            modelBuilder.Entity("EmployeesManagementSystem.Models.Skill", b =>
+                {
+                    b.Property<int>("SkillId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .UseIdentityColumn();
+
+                    b.Property<int?>("CategoryId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("SkillDescription")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("SkillName")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("SkillId");
+
+                    b.HasIndex("CategoryId");
+
+                    b.ToTable("Skills");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>
@@ -279,6 +353,21 @@ namespace EmployeesManagementSystem.Migrations
                     b.ToTable("AspNetUserTokens");
                 });
 
+            modelBuilder.Entity("EmployeeSkill", b =>
+                {
+                    b.HasOne("EmployeesManagementSystem.Models.Employee", null)
+                        .WithMany()
+                        .HasForeignKey("EmployeesId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("EmployeesManagementSystem.Models.Skill", null)
+                        .WithMany()
+                        .HasForeignKey("SkillsSkillId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
             modelBuilder.Entity("EmployeesManagementSystem.Models.Employee", b =>
                 {
                     b.HasOne("EmployeesManagementSystem.Models.Department", "Department")
@@ -288,6 +377,32 @@ namespace EmployeesManagementSystem.Migrations
                         .IsRequired();
 
                     b.Navigation("Department");
+                });
+
+            modelBuilder.Entity("EmployeesManagementSystem.Models.EmployeeSkill", b =>
+                {
+                    b.HasOne("EmployeesManagementSystem.Models.Employee", "Employee")
+                        .WithMany("EmployeeSkills")
+                        .HasForeignKey("EmployeesId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("EmployeesManagementSystem.Models.Skill", "Skill")
+                        .WithMany("EmployeeSkills")
+                        .HasForeignKey("SkillsId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Employee");
+
+                    b.Navigation("Skill");
+                });
+
+            modelBuilder.Entity("EmployeesManagementSystem.Models.Skill", b =>
+                {
+                    b.HasOne("EmployeesManagementSystem.Models.Category", null)
+                        .WithMany("Skills")
+                        .HasForeignKey("CategoryId");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
@@ -341,9 +456,24 @@ namespace EmployeesManagementSystem.Migrations
                         .IsRequired();
                 });
 
+            modelBuilder.Entity("EmployeesManagementSystem.Models.Category", b =>
+                {
+                    b.Navigation("Skills");
+                });
+
             modelBuilder.Entity("EmployeesManagementSystem.Models.Department", b =>
                 {
                     b.Navigation("Employees");
+                });
+
+            modelBuilder.Entity("EmployeesManagementSystem.Models.Employee", b =>
+                {
+                    b.Navigation("EmployeeSkills");
+                });
+
+            modelBuilder.Entity("EmployeesManagementSystem.Models.Skill", b =>
+                {
+                    b.Navigation("EmployeeSkills");
                 });
 #pragma warning restore 612, 618
         }

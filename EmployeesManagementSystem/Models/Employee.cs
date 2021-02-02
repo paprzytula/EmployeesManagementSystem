@@ -20,7 +20,7 @@ namespace EmployeesManagementSystem.Models
         public string PhotoPath { get; set; }
         public virtual Department Department { get; set; }
         public int DepartmentId { get; set; }
-        public virtual ICollection<EmployeeSkill> EmployeeSkills { get; set; } = new List<EmployeeSkill>();
-        public virtual ICollection<Skill> Skills { get; set; } = new List<Skill>();
+        public virtual ICollection<Skill> Skills { get; set; }
+        public virtual ICollection<EmployeeSkill> EmployeeSkills { get; set; }
     }
 }

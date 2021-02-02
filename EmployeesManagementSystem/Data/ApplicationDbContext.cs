@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using System;
+using Microsoft.Extensions.Logging;
 using System.Collections.Generic;
 using System.Text;
 
@@ -18,6 +19,7 @@ namespace EmployeesManagementSystem.Data
         public DbSet<Employee> Employees { get; set; }
         public DbSet<Category> Categories { get; set; }
         public DbSet<Skill> Skills { get; set; }
+        public DbSet<EmployeeSkill> EmployeeSkills { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -30,17 +32,24 @@ namespace EmployeesManagementSystem.Data
             modelBuilder.Entity<Department>().HasData(
                 new Department { DepartmentId = 1, DepartmentName = "IT" });
             modelBuilder.Entity<Department>().HasData(
-    new Department { DepartmentId = 2, DepartmentName = "HR" });
+    new Department { DepartmentId = 2, DepartmentName = "Scada" });
             modelBuilder.Entity<Department>().HasData(
     new Department { DepartmentId = 3, DepartmentName = "Adminstration" });
             modelBuilder.Entity<Department>().HasData(
     new Department { DepartmentId = 4, DepartmentName = "Admin" });
 
-            modelBuilder.Entity<Employee>()
-                .HasOne(d => d.Department)
-                .WithMany(e => e.Employees)
-                .HasForeignKey(d => d.DepartmentId);
-           
+            modelBuilder.Entity<EmployeeSkill>()
+                .HasOne<Employee>(es => es.Employee)
+                .WithMany(e => e.EmployeeSkills)
+                .HasForeignKey(s => s.EmployeesId);
+
+            modelBuilder.Entity<EmployeeSkill>()
+                .HasOne<Skill>(es => es.Skill)
+                .WithMany(e => e.EmployeeSkills)
+                .HasForeignKey(s => s.SkillsId);
+
+            modelBuilder.Entity<EmployeeSkill>()
+                .HasKey(p => new { p.EmployeesId, p.SkillsId});
         }
     }
 }

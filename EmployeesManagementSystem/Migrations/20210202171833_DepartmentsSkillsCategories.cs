@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace EmployeesManagementSystem.Migrations
 {
-    public partial class Initial : Migration
+    public partial class DepartmentsSkillsCategories : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -19,6 +19,20 @@ namespace EmployeesManagementSystem.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_AspNetRoles", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Categories",
+                columns: table => new
+                {
+                    CategoryId = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    CategoryName = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    CategoryDescription = table.Column<string>(type: "nvarchar(max)", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Categories", x => x.CategoryId);
                 });
 
             migrationBuilder.CreateTable(
@@ -53,6 +67,27 @@ namespace EmployeesManagementSystem.Migrations
                         principalTable: "AspNetRoles",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Skills",
+                columns: table => new
+                {
+                    SkillId = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    SkillDescription = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    SkillName = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    CategoryId = table.Column<int>(type: "int", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Skills", x => x.SkillId);
+                    table.ForeignKey(
+                        name: "FK_Skills_Categories_CategoryId",
+                        column: x => x.CategoryId,
+                        principalTable: "Categories",
+                        principalColumn: "CategoryId",
+                        onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateTable(
@@ -177,13 +212,62 @@ namespace EmployeesManagementSystem.Migrations
                         onDelete: ReferentialAction.Cascade);
                 });
 
+            migrationBuilder.CreateTable(
+                name: "EmployeeSkill",
+                columns: table => new
+                {
+                    EmployeesId = table.Column<string>(type: "nvarchar(450)", nullable: false),
+                    SkillsSkillId = table.Column<int>(type: "int", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_EmployeeSkill", x => new { x.EmployeesId, x.SkillsSkillId });
+                    table.ForeignKey(
+                        name: "FK_EmployeeSkill_AspNetUsers_EmployeesId",
+                        column: x => x.EmployeesId,
+                        principalTable: "AspNetUsers",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_EmployeeSkill_Skills_SkillsSkillId",
+                        column: x => x.SkillsSkillId,
+                        principalTable: "Skills",
+                        principalColumn: "SkillId",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "EmployeeSkills",
+                columns: table => new
+                {
+                    EmployeesId = table.Column<string>(type: "nvarchar(450)", nullable: false),
+                    SkillsId = table.Column<int>(type: "int", nullable: false),
+                    Answer = table.Column<string>(type: "nvarchar(max)", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_EmployeeSkills", x => new { x.EmployeesId, x.SkillsId });
+                    table.ForeignKey(
+                        name: "FK_EmployeeSkills_AspNetUsers_EmployeesId",
+                        column: x => x.EmployeesId,
+                        principalTable: "AspNetUsers",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_EmployeeSkills_Skills_SkillsId",
+                        column: x => x.SkillsId,
+                        principalTable: "Skills",
+                        principalColumn: "SkillId",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
             migrationBuilder.InsertData(
                 table: "Departments",
                 columns: new[] { "DepartmentId", "DepartmentName" },
                 values: new object[,]
                 {
                     { 1, "IT" },
-                    { 2, "HR" },
+                    { 2, "Scada" },
                     { 3, "Adminstration" },
                     { 4, "Admin" }
                 });
@@ -231,6 +315,21 @@ namespace EmployeesManagementSystem.Migrations
                 column: "NormalizedUserName",
                 unique: true,
                 filter: "[NormalizedUserName] IS NOT NULL");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_EmployeeSkill_SkillsSkillId",
+                table: "EmployeeSkill",
+                column: "SkillsSkillId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_EmployeeSkills_SkillsId",
+                table: "EmployeeSkills",
+                column: "SkillsId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Skills_CategoryId",
+                table: "Skills",
+                column: "CategoryId");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
@@ -251,13 +350,25 @@ namespace EmployeesManagementSystem.Migrations
                 name: "AspNetUserTokens");
 
             migrationBuilder.DropTable(
+                name: "EmployeeSkill");
+
+            migrationBuilder.DropTable(
+                name: "EmployeeSkills");
+
+            migrationBuilder.DropTable(
                 name: "AspNetRoles");
 
             migrationBuilder.DropTable(
                 name: "AspNetUsers");
 
             migrationBuilder.DropTable(
+                name: "Skills");
+
+            migrationBuilder.DropTable(
                 name: "Departments");
+
+            migrationBuilder.DropTable(
+                name: "Categories");
         }
     }
 }
